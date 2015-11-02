@@ -56,7 +56,6 @@ Exit: Function returns nothing
 
 #include <SDL.h>
 #include <iostream>
-#include "cKeyboard.h"
 #include "cSurfMan.h"
 
 
@@ -67,14 +66,15 @@ cTime(): Window, ScreenSurface, and Image are initialized to null.
 
 Methods: */
 
-class cMainGame
+class cMainGame : public cSurfMan
 {
-public:
+public: 
 	
 	cMainGame();								//Constructor Declaration
-	~cMainGame();								//Destructor Declaration
+	virtual ~cMainGame();								//Destructor Declaration
 
-	void cGameLoop(cSurfMan tempSurf, cKeyBoard tempKey, SDL_Surface * mainSurface[KEY_PRESS_SURFACE_TOTAL]);
+	void cGameLoop(SDL_Texture * mainSurface[KEY_PRESS_SURFACE_TOTAL]);
+	virtual void out();
 
 private:
 	//Current displayed image

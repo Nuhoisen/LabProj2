@@ -14,9 +14,12 @@ cMainGame::cMainGame()
 {
 }
 
-cMainGame::~cMainGame() {}
+cMainGame::~cMainGame() 
+{
 
-void cMainGame::cGameLoop(cSurfMan tempSurf, cKeyBoard tempKey, SDL_Surface * mainSurface[KEY_PRESS_SURFACE_TOTAL])
+}
+
+void cMainGame::cGameLoop( SDL_Texture * mainSurface[KEY_PRESS_SURFACE_TOTAL])
 {
 	//bool checks if application is running
 	bool quit = false;
@@ -24,7 +27,7 @@ void cMainGame::cGameLoop(cSurfMan tempSurf, cKeyBoard tempKey, SDL_Surface * ma
 	//Event handler
 	SDL_Event eHandle;
 	//SDL_Surface that holds the image while the Event handler processes
-	SDL_Surface * CurrentSurface=nullptr;
+	SDL_Texture * CurrentSurface = mainSurface[KEY_PRESS_SURFACE_DEFAULT];
 	
 	while (!quit)
 	{
@@ -38,16 +41,23 @@ void cMainGame::cGameLoop(cSurfMan tempSurf, cKeyBoard tempKey, SDL_Surface * ma
 			}
 			else if (eHandle.type == SDL_KEYDOWN)
 			{
-				CurrentSurface = tempKey.HandleInput(eHandle, quit, mainSurface);
+				CurrentSurface = this->HandleInput(eHandle, quit, mainSurface);
+		
 			}
 
 			//Apply the image stretched
-			tempSurf.ConvertSurface(CurrentSurface);
-
-			//Update the surface
-			SDL_UpdateWindowSurface(tempSurf.WindowGetter());
+		
+			SDL_RenderClear(mRenderer);
+			SDL_RenderCopy(mRenderer, CurrentSurface, nullptr, nullptr);
+			SDL_RenderPresent(mRenderer);
 		}
 
 	}
 
+}
+
+
+void cMainGame::out()
+{
+	
 }

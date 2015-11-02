@@ -38,5 +38,11 @@
     <ClInclude Include="cKeyboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cGameParent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

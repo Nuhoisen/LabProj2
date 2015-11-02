@@ -3,8 +3,6 @@
 using std::cout;
 using std::cin;
 #include "cKeyboard.h"
-#include "cSurfMan.h"
-#include "cMainGame.h"
 #include <SDL.h>
 #include <string>
 
@@ -12,9 +10,11 @@ cKeyBoard::cKeyBoard() {};
 
 cKeyBoard::~cKeyBoard() {};
 
-SDL_Surface * cKeyBoard::HandleInput(SDL_Event e, bool quit, SDL_Surface * KeySurfaces[KEY_PRESS_SURFACE_TOTAL])
+
+
+SDL_Texture * cKeyBoard::HandleInput(SDL_Event e, bool quit, SDL_Texture * KeySurfaces[KEY_PRESS_SURFACE_TOTAL])
 {
-	SDL_Surface* returnSurface = nullptr;
+	SDL_Texture* returnSurface = nullptr;
 	switch (e.key.keysym.sym)
 	{
 	case SDLK_UP:

@@ -101,19 +101,18 @@ Exit: Returns the data member
 #include <SDL.h>
 #include <iostream>
 #include "cKeyboard.h"
-
 /*Class:cSurfMan
 
 Constructors*/
-class cSurfMan
+class cSurfMan  : public cKeyBoard
 {
 public:
 	
 	bool Init(char * headerName[]);
-	bool LoadMedia(SDL_Surface* KeySurfaces[KEY_PRESS_SURFACE_TOTAL]);
-	SDL_Surface* LoadSurface(std::string);
+	bool LoadMedia(SDL_Texture* KeySurfaces[KEY_PRESS_SURFACE_TOTAL], char * fileNames[]);
+	SDL_Texture* LoadSurface(std::string);
 	bool Retry();
-	void Close(SDL_Surface * KeyPresses[KEY_PRESS_SURFACE_TOTAL]);
+	void Close(SDL_Texture * KeyPresses[KEY_PRESS_SURFACE_TOTAL]);
 	void ConvertSurface(SDL_Surface * mCurrentSurface);
 	SDL_Window* WindowGetter() { return mWindow; };
 
@@ -121,15 +120,18 @@ public:
 	cSurfMan();
 	
 	//destructor
-	~cSurfMan();
+	virtual ~cSurfMan();
+	virtual void out() = 0;
 private:
 	//window to render to
-	SDL_Window* mWindow;
+	
 	//surface containing window
 	SDL_Surface* mScreenSurface;
 	//current surface displaying window
 	SDL_Surface* mStretchedSurface;
 
-
+protected:
+	SDL_Window* mWindow;
+	SDL_Renderer* mRenderer;
 };
 #endif // !CSURFMAN_H

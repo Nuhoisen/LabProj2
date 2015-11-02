@@ -68,20 +68,24 @@ enum KeyPressSurfaces
 };
 
 #include <SDL.h>
+#include "cGameParent.h"
 
-class cKeyBoard
+class cKeyBoard :public cGameParent
 {
 public:
 
-	SDL_Surface * HandleInput(SDL_Event e, bool quit, SDL_Surface * KeySurfaces[KEY_PRESS_SURFACE_TOTAL]);
+	SDL_Texture * HandleInput(SDL_Event e, bool quit, SDL_Texture * KeySurfaces[KEY_PRESS_SURFACE_TOTAL]);
+
 
 	//getter for elements of SDL_SURFACE *gKeyPressSurfaces
 	//setters
 
 	cKeyBoard();
 
-	~cKeyBoard();
-private:
-	SDL_Surface* mKeyPressSurfaces[KEY_PRESS_SURFACE_TOTAL];
+	virtual ~cKeyBoard();
+	virtual void out() = 0;
+
+protected:
+	SDL_Texture* mKeyPressSurfaces[KEY_PRESS_SURFACE_TOTAL];
 };
 #endif

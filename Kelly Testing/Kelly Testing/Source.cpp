@@ -3,41 +3,37 @@
 using std::cout;
 using std::cin;
 #include "cMainGame.h"
-#include "cKeyboard.h"
-#include "cSurfMan.h"
 #include <SDL.h>
 
 
 int main(int argc, char * argv[])
 {
-
-	cSurfMan  manage;
-	cKeyBoard board;
-	cMainGame game;
-	SDL_Surface * mainSurface[KEY_PRESS_SURFACE_TOTAL];
+	
+	cMainGame * game= new cMainGame;
+	SDL_Texture * mainSurface[KEY_PRESS_SURFACE_TOTAL];
 	bool again = false;
 	//do loop triggers again when 'Retry()' function returns true
 	do {
 		//class object
 
-		if (!manage.Init(argv))
+		if (!game->Init(argv))
 		{
 			cout << "failed to initialize...";
 		}
 		else
 		{
-			if (!manage.LoadMedia(mainSurface))
+			if (!game->LoadMedia(mainSurface, argv))
 			{
 				cout << "failed to load.";
 			}
 			else
 			{
-				game.cGameLoop(manage, board, mainSurface);
+				game->cGameLoop(mainSurface);
 			}
 		}
-		manage.Close(mainSurface);
-		again = manage.Retry();
+		game->Close(mainSurface);
+		again = game->Retry();
 	} while (again == true);
-
+	game = nullptr;
 	return 0;
 }

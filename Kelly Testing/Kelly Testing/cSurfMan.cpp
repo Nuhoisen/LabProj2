@@ -3,17 +3,17 @@
 using std::cout;
 using std::cin;
 #include "cSurfMan.h"
-#include "cKeyboard.h"
-#include "cMainGame.h"
 #include <SDL.h>
+#include <SDL_image.h>
 
 const int WIDTH = 640;
-const int HEIGHT = 300;
+const int HEIGHT = 480;
 cSurfMan::cSurfMan()
 {
-	mWindow = NULL;
-	mScreenSurface = NULL;
-	mStretchedSurface = NULL;
+	mWindow = nullptr;
+	mScreenSurface = nullptr;
+	mStretchedSurface = nullptr;
+
 }
 
 cSurfMan::~cSurfMan() {}
@@ -28,7 +28,11 @@ bool cSurfMan::Init(char * headerName[])
 	}
 	else
 	{
-		mWindow = SDL_CreateWindow(headerName[1], SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
+		if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"))
+		{
+			cout << "Linear Texture Filtering not enabled!";
+		}
+		mWindow = SDL_CreateWindow(headerName[2], SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
 		if (mWindow == nullptr)
 		{
 			cout << "Can't Create Window! SDL ERROR: " << SDL_GetError();
@@ -36,45 +40,59 @@ bool cSurfMan::Init(char * headerName[])
 		}
 		else
 		{
-			mScreenSurface = SDL_GetWindowSurface(mWindow);
+			mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
+			if (mRenderer = nullptr)
+			{
+				cout << "Renderer Failed to be created!";
+			}
+			else
+			{	SDL_SetRenderDrawColor(mRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
+				int imgFlags = IMG_INIT_PNG;
+				if (!(IMG_Init(imgFlags) & imgFlags))
+				{
+					cout << "SDL_Image couldn't initialize!";
+					pass = false;
+				}
+			}
 		}
 	}
 	return pass;
 }
 
-bool cSurfMan::LoadMedia(SDL_Surface *KeySurfaces[KEY_PRESS_SURFACE_TOTAL])
+bool cSurfMan::LoadMedia(SDL_Texture *KeySurfaces[KEY_PRESS_SURFACE_TOTAL], char * fileNames[])
 {
 	bool success = true;
 
-	KeySurfaces[KEY_PRESS_SURFACE_DEFAULT] = LoadSurface("04_key_presses/press.bmp"); //Default Key
+	KeySurfaces[KEY_PRESS_SURFACE_DEFAULT] = LoadSurface("AlienGameImages/8BPimage201510213497389785.png"); //Default Key
 	if (KeySurfaces[KEY_PRESS_SURFACE_DEFAULT] == nullptr)							  //Checks that the image successfully opened
 	{
 		cout << "Failed to load default image!\n";
 		success = false;
 	}
 
-	KeySurfaces[KEY_PRESS_SURFACE_UP] = LoadSurface("04_key_presses/up.bmp");	//Up Key
+	KeySurfaces[KEY_PRESS_SURFACE_UP] = LoadSurface("AlienGameImages/8BPimage2015102133012845585.png");	//Up Key
 	if (KeySurfaces[KEY_PRESS_SURFACE_UP] == nullptr)							//Checks that the image successfully opened
 	{
 		cout << "Failed to load default image!\n";
 		success = false;
 	}
 
-	KeySurfaces[KEY_PRESS_SURFACE_DOWN] = LoadSurface("04_key_presses/down.bmp"); //Down Key
+	KeySurfaces[KEY_PRESS_SURFACE_DOWN] = LoadSurface("AlienGameImages/8BPimage2015102133534700500.png"); //Down Key
 	if (KeySurfaces[KEY_PRESS_SURFACE_DOWN] == nullptr)							  //Checks that the image successfully opened
 	{
 		cout << "Failed to load default image!\n";
 		success = false;
 	}
 
-	KeySurfaces[KEY_PRESS_SURFACE_LEFT] = LoadSurface("04_key_presses/left.bmp");//Left Key
+	KeySurfaces[KEY_PRESS_SURFACE_LEFT] = LoadSurface("AlienGameImages/8BPimage2015102133651753614.png");//Left Key
 	if (KeySurfaces[KEY_PRESS_SURFACE_LEFT] == nullptr)							//Checks that the image successfully opened
 	{
 		cout << "Failed to load default image!\n";	
 		success = false;
 	}
 
-	KeySurfaces[KEY_PRESS_SURFACE_RIGHT] = LoadSurface("04_key_presses/right.bmp");	//Right Key
+	KeySurfaces[KEY_PRESS_SURFACE_RIGHT] = LoadSurface("AlienGameImages/8BPimage2015102134322446189.png");	//Right Key
 	if (KeySurfaces[KEY_PRESS_SURFACE_RIGHT] == nullptr)							//Checks that the image successfully opened
 	{
 		cout << "Failed to load default image!\n";
@@ -84,34 +102,34 @@ bool cSurfMan::LoadMedia(SDL_Surface *KeySurfaces[KEY_PRESS_SURFACE_TOTAL])
 	return success;
 }
 
-SDL_Surface* cSurfMan::LoadSurface(std::string path)
-{
+SDL_Texture* cSurfMan::LoadSurface(std::string path)
+{	
+	//Texture 
+	SDL_Texture *tempTexture= nullptr;
 	//create cSurfMan object to access getter from the class
 
-	//The final optimized image
-	SDL_Surface* optimizedSurface = nullptr;
+	
 
 	//Load image at specified path
-	SDL_Surface* loadedSurface = SDL_LoadBMP(path.c_str());
+	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	if (loadedSurface == nullptr)
 	{
 		cout << "Unable to load image, SDL Error: %s\n" << SDL_GetError();
 	}
 	else
 	{
-		//Convert surface to screen format
-		optimizedSurface = SDL_ConvertSurface(loadedSurface, mScreenSurface->format, NULL);
-		if (optimizedSurface == nullptr)
-		{
-			cout << "Unable to optimize image! SDL Error:" << SDL_GetError();
-		}
+			//Convert surface to texture
+			tempTexture = SDL_CreateTextureFromSurface(mRenderer, loadedSurface);
+			if (tempTexture == nullptr)
+			{
+				cout << "Unable to create texture from image! SDL Error:" << SDL_GetError();
+			}
 
-		//Get rid of old loaded surface
-		SDL_FreeSurface(loadedSurface);
-		loadedSurface = nullptr;
+			//Get rid of old loaded surfaces
+			SDL_FreeSurface(loadedSurface);
+			loadedSurface = nullptr;
 	}
-
-	return optimizedSurface;
+	return tempTexture;
 }
 
 void cSurfMan::ConvertSurface(SDL_Surface * CurrentSurface)
@@ -149,14 +167,16 @@ bool cSurfMan::Retry()
 	}
 }
 
-void cSurfMan::Close(SDL_Surface * KeyPresses[KEY_PRESS_SURFACE_TOTAL])
+void cSurfMan::Close(SDL_Texture * KeyPresses[KEY_PRESS_SURFACE_TOTAL])
 {
 	for (int i = 0; i < KEY_PRESS_SURFACE_TOTAL; i++)
 	{
-		SDL_FreeSurface(KeyPresses[i]);
+		SDL_DestroyTexture(KeyPresses[i]);
 		KeyPresses[i] = nullptr;
 	}
-
+	//destroy window and renderer
+	SDL_DestroyRenderer(mRenderer);
+	mRenderer = nullptr;
 	SDL_FreeSurface(mStretchedSurface);
 	mStretchedSurface = nullptr;
 
