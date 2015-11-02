@@ -126,6 +126,7 @@
     <ClCompile Include="cKeyboard.cpp" />
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="cSurfMan.cpp" />
+    <ClCompile Include="mRandArray.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +134,7 @@
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cSurfMan.h" />
     <ClInclude Include="cGameParent.h" />
+    <ClInclude Include="mRandArray.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

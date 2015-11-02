@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LocalDebuggerCommandArguments>"04_key_presses/down.bmp" "04_key_presses/up.bmp"</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>AlienGameImages/8BPimage201510213497389785.png AlienGameImages/8BPimage2015102133012845585.png AlienGameImages/8BPimage2015102133534700500.png AlienGameImages/8BPimage2015102133651753614.png AlienGameImages/8BPimage2015102134322446189.png</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

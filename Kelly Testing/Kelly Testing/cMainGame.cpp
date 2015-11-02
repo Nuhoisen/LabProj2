@@ -45,9 +45,10 @@ void cMainGame::cGameLoop( SDL_Texture * mainSurface[KEY_PRESS_SURFACE_TOTAL])
 		
 			}
 
-			//Apply the image stretched
 		
+			//Clear screen	
 			SDL_RenderClear(mRenderer);
+			//copy texture to screen
 			SDL_RenderCopy(mRenderer, CurrentSurface, nullptr, nullptr);
 			SDL_RenderPresent(mRenderer);
 		}

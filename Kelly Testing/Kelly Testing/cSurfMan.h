@@ -97,19 +97,24 @@ Exit: Returns the data member
 
 #ifndef CSURFMAN_H
 #define CSURFMAN_H
-
+#include <iostream>
+using std::cout;
+using std::cin;
 #include <SDL.h>
 #include <iostream>
+#include <string>
 #include "cKeyboard.h"
+#include <SDL_image.h>
+
+using std::string;
 /*Class:cSurfMan
 
 Constructors*/
 class cSurfMan  : public cKeyBoard
 {
 public:
-	
-	bool Init(char * headerName[]);
-	bool LoadMedia(SDL_Texture* KeySurfaces[KEY_PRESS_SURFACE_TOTAL], char * fileNames[]);
+	bool Init(string * header);
+	bool LoadMedia(SDL_Texture* KeySurfaces[KEY_PRESS_SURFACE_TOTAL], string * files);
 	SDL_Texture* LoadSurface(std::string);
 	bool Retry();
 	void Close(SDL_Texture * KeyPresses[KEY_PRESS_SURFACE_TOTAL]);

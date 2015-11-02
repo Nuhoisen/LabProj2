@@ -1,10 +1,7 @@
 //Kelly Honsinger
-#include <iostream>
-using std::cout;
-using std::cin;
+
 #include "cSurfMan.h"
-#include <SDL.h>
-#include <SDL_image.h>
+
 
 const int WIDTH = 640;
 const int HEIGHT = 480;
@@ -17,7 +14,7 @@ cSurfMan::cSurfMan()
 }
 
 cSurfMan::~cSurfMan() {}
-bool cSurfMan::Init(char * headerName[])
+bool cSurfMan::Init(string * header)
 {
 	bool pass = true;
 
@@ -32,7 +29,8 @@ bool cSurfMan::Init(char * headerName[])
 		{
 			cout << "Linear Texture Filtering not enabled!";
 		}
-		mWindow = SDL_CreateWindow(headerName[2], SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
+		 
+		mWindow = SDL_CreateWindow(header[1].c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
 		if (mWindow == nullptr)
 		{
 			cout << "Can't Create Window! SDL ERROR: " << SDL_GetError();
@@ -41,12 +39,14 @@ bool cSurfMan::Init(char * headerName[])
 		else
 		{
 			mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
-			if (mRenderer = nullptr)
+			if (mRenderer == nullptr)
 			{
 				cout << "Renderer Failed to be created!";
+				pass = false;
 			}
 			else
-			{	SDL_SetRenderDrawColor(mRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+			{	
+				SDL_SetRenderDrawColor(mRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
 				int imgFlags = IMG_INIT_PNG;
 				if (!(IMG_Init(imgFlags) & imgFlags))
@@ -60,39 +60,39 @@ bool cSurfMan::Init(char * headerName[])
 	return pass;
 }
 
-bool cSurfMan::LoadMedia(SDL_Texture *KeySurfaces[KEY_PRESS_SURFACE_TOTAL], char * fileNames[])
+bool cSurfMan::LoadMedia(SDL_Texture *KeySurfaces[KEY_PRESS_SURFACE_TOTAL], string * files)
 {
 	bool success = true;
 
-	KeySurfaces[KEY_PRESS_SURFACE_DEFAULT] = LoadSurface("AlienGameImages/8BPimage201510213497389785.png"); //Default Key
+	KeySurfaces[KEY_PRESS_SURFACE_DEFAULT] = LoadSurface(files[1].c_str()); //Default Key
 	if (KeySurfaces[KEY_PRESS_SURFACE_DEFAULT] == nullptr)							  //Checks that the image successfully opened
 	{
 		cout << "Failed to load default image!\n";
 		success = false;
 	}
 
-	KeySurfaces[KEY_PRESS_SURFACE_UP] = LoadSurface("AlienGameImages/8BPimage2015102133012845585.png");	//Up Key
+	KeySurfaces[KEY_PRESS_SURFACE_UP] = LoadSurface(files[2].c_str());	//Up Key
 	if (KeySurfaces[KEY_PRESS_SURFACE_UP] == nullptr)							//Checks that the image successfully opened
 	{
 		cout << "Failed to load default image!\n";
 		success = false;
 	}
 
-	KeySurfaces[KEY_PRESS_SURFACE_DOWN] = LoadSurface("AlienGameImages/8BPimage2015102133534700500.png"); //Down Key
+	KeySurfaces[KEY_PRESS_SURFACE_DOWN] = LoadSurface(files[3].c_str()); //Down Key
 	if (KeySurfaces[KEY_PRESS_SURFACE_DOWN] == nullptr)							  //Checks that the image successfully opened
 	{
 		cout << "Failed to load default image!\n";
 		success = false;
 	}
 
-	KeySurfaces[KEY_PRESS_SURFACE_LEFT] = LoadSurface("AlienGameImages/8BPimage2015102133651753614.png");//Left Key
+	KeySurfaces[KEY_PRESS_SURFACE_LEFT] = LoadSurface(files[4].c_str());//Left Key
 	if (KeySurfaces[KEY_PRESS_SURFACE_LEFT] == nullptr)							//Checks that the image successfully opened
 	{
 		cout << "Failed to load default image!\n";	
 		success = false;
 	}
 
-	KeySurfaces[KEY_PRESS_SURFACE_RIGHT] = LoadSurface("AlienGameImages/8BPimage2015102134322446189.png");	//Right Key
+	KeySurfaces[KEY_PRESS_SURFACE_RIGHT] = LoadSurface(files[5].c_str());	//Right Key
 	if (KeySurfaces[KEY_PRESS_SURFACE_RIGHT] == nullptr)							//Checks that the image successfully opened
 	{
 		cout << "Failed to load default image!\n";
