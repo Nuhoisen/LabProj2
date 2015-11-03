@@ -57,7 +57,8 @@ Exit: Function returns nothing
 #include <SDL.h>
 #include <iostream>
 #include "cSurfMan.h"
-
+#include "cSpriteGameLoop.h"
+#include "cImageTextures.h"
 
 /* Class:cMainGame
 
@@ -73,12 +74,12 @@ public:
 	cMainGame();								//Constructor Declaration
 	virtual ~cMainGame();								//Destructor Declaration
 
-	void cGameLoop(SDL_Texture * mainSurface[KEY_PRESS_SURFACE_TOTAL]);
-	virtual void out();
+	void GameLoop(SDL_Texture * mainSurface[IMAGE_SIXTH], cSpriteGameLoop * tempSprite, cImageTextures* tempImage);
+
 
 private:
 	//Current displayed image
-	SDL_Surface * mainSurface[KEY_PRESS_SURFACE_TOTAL]; //Pointer to SDL_Surface array that holds Images
-			
+	
+	const int TIME = 500;
 };
 #endif

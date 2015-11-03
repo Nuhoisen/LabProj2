@@ -105,31 +105,33 @@ using std::cin;
 #include <string>
 #include "cKeyboard.h"
 #include <SDL_image.h>
-
+const int WIDTH = 640;
+const int HEIGHT = 480;
 using std::string;
 /*Class:cSurfMan
 
 Constructors*/
-class cSurfMan  : public cKeyBoard
+class cSurfMan : public cKeyBoard
 {
 public:
-	bool Init(string * header);
-	bool LoadMedia(SDL_Texture* KeySurfaces[KEY_PRESS_SURFACE_TOTAL], string * files);
+	bool Init(char * argv[]);
+	bool LoadMedia(SDL_Texture* KeySurfaces[IMAGE_SIXTH], char * vArg[]);
+	SDL_Texture * Loadtexture(string path);
 	SDL_Texture* LoadSurface(std::string);
 	bool Retry();
-	void Close(SDL_Texture * KeyPresses[KEY_PRESS_SURFACE_TOTAL]);
+	void Close(SDL_Texture * KeyPresses[IMAGE_SIXTH]);
 	void ConvertSurface(SDL_Surface * mCurrentSurface);
 	SDL_Window* WindowGetter() { return mWindow; };
-
 	//constructor
 	cSurfMan();
-	
+
 	//destructor
 	virtual ~cSurfMan();
-	virtual void out() = 0;
+
+	
 private:
 	//window to render to
-	
+
 	//surface containing window
 	SDL_Surface* mScreenSurface;
 	//current surface displaying window
@@ -138,5 +140,7 @@ private:
 protected:
 	SDL_Window* mWindow;
 	SDL_Renderer* mRenderer;
+	SDL_Texture* mTexture;
+	SDL_Texture * mSpriteSheetTexture;
 };
 #endif // !CSURFMAN_H

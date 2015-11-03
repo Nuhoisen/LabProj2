@@ -59,22 +59,22 @@ Exit: Returns a pointer to SDL_Surface that holds the users requested image.
 //Enum holds ints that will be processed by a switch-case body of code
 enum KeyPressSurfaces
 {
-	KEY_PRESS_SURFACE_DEFAULT,
-	KEY_PRESS_SURFACE_UP,
-	KEY_PRESS_SURFACE_DOWN,
-	KEY_PRESS_SURFACE_LEFT,
-	KEY_PRESS_SURFACE_RIGHT,
-	KEY_PRESS_SURFACE_TOTAL
+	IMAGE_FIRST,
+	IMAGE_SECOND,
+	IMAGE_THIRD,
+	IMAGE_FOURTH,
+	IMAGE_FIFTH,
+	IMAGE_SIXTH
 };
 
 #include <SDL.h>
-#include "cGameParent.h"
 
-class cKeyBoard :public cGameParent
+
+class cKeyBoard 
 {
 public:
 
-	SDL_Texture * HandleInput(SDL_Event e, bool quit, SDL_Texture * KeySurfaces[KEY_PRESS_SURFACE_TOTAL]);
+	SDL_Texture * HandleInput(SDL_Event e, bool quit, SDL_Texture * KeySurfaces[IMAGE_SIXTH]);
 
 
 	//getter for elements of SDL_SURFACE *gKeyPressSurfaces
@@ -83,9 +83,9 @@ public:
 	cKeyBoard();
 
 	virtual ~cKeyBoard();
-	virtual void out() = 0;
+
 
 protected:
-	SDL_Texture* mKeyPressSurfaces[KEY_PRESS_SURFACE_TOTAL];
+	SDL_Texture* mKeyPressSurfaces[IMAGE_SIXTH];
 };
 #endif

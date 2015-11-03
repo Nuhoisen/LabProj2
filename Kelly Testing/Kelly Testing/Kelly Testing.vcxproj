@@ -123,21 +123,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cImageTextures.cpp" />
     <ClCompile Include="cKeyboard.cpp" />
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="cSurfMan.cpp" />
-    <ClCompile Include="mRandArray.cpp" />
+    <ClCompile Include="cRandArray.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="cSpriteGameLoop.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cImageTextures.h" />
     <ClInclude Include="cKeyboard.h" />
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cSurfMan.h" />
-    <ClInclude Include="cGameParent.h" />
-    <ClInclude Include="mRandArray.h" />
+    <ClInclude Include="cRandArray.h" />
+    <ClInclude Include="cSpriteGameLoop.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="AlienGameImages\spritesheet.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
